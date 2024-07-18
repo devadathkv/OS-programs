@@ -1,0 +1,49 @@
+#include <stdio.h>
+
+int main() {
+    int fragment[20], bsize[20], psize[20], temp, highest = -1, bno, pno;
+    static int barray[20], parray[20];
+    
+    printf("Enter number of blocks: ");
+    scanf("%d", &bno);
+    
+    printf("Enter number of processes: ");
+    scanf("%d", &pno);
+    
+    for (int i = 0; i < bno; i++) {
+        printf("Enter block size %d: ", i + 1);
+        scanf("%d", &bsize[i]);
+    }
+    
+    for (int i = 0; i < pno; i++) {
+        printf("Enter process size %d: ", i + 1);
+        scanf("%d", &psize[i]);
+    }
+    
+    for (int i = 0; i < pno; i++) {
+        for (int j = 0; j < bno; j++) {
+            if (barray[j] == 0) { // Block not already allocated
+                temp = bsize[j] - psize[i];
+                if (temp >= 0 && highest < temp) {
+                    parray[i] = j;
+                    highest = temp;
+                }
+            }
+        }
+        fragment[i] = highest;
+        barray[parray[i]] = 1;
+        highest =-1;
+    }
+    
+    printf("\nProcess No \t Process Size \t Block No \t Block Size \t Fragment");
+    for (int i = 0; i < pno; i++) {
+        if (fragment[i] != 0) { // Only print allocated processes
+            printf("\n%d\t\t%d\t\t%d\t\t%d\t\t%d", i + 1, psize[i], parray[i] + 1, bsize[parray[i]], fragment[i]);
+        } else {
+            printf("\n%d\t\t%d\t\tNot Allocated", i + 1, psize[i]);
+        }
+    }
+    
+    return 0;
+}
+
