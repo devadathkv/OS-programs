@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+int main(){
+    int fragment[20],bsize[20],psize[20],temp,lowest=10000,bno,pno;
+    static int barray[20],parray[20];
+    printf("Enter no of blocks : ");
+    scanf("%d",&bno);
+    printf("Enter no of process : ");
+    scanf("%d",&pno);
+    for(int i=0;i<bno;i++){
+        printf("Enter block size : ");
+        scanf("%d",&bsize[i]);
+    }
+    for(int i=0;i<pno;i++){
+        printf("Enter process size : ");
+        scanf("%d",&psize[i]);
+    }
+    
+    
+    for(int i=0;i<pno;i++){
+        for(int j=0;j<bno;j++){
+            if(barray[j]==0){
+                temp=bsize[j]-psize[i];
+                if(temp>=0 && temp<lowest){
+                        parray[i]=j;
+                        lowest=temp;
+                }
+            }
+        }
+        fragment[i]=lowest;
+        barray[parray[i]]=1;
+        lowest=10000;
+    }
+    
+    printf("\nProcess No\tProcess Size\tBlock No\tBlock Size\tFragment");
+    for (int i = 0; i < pno; i++) {
+        if (fragment[i] != 10000) {  // Only print allocated processes
+            printf("\n%d\t\t%d\t\t%d\t\t%d\t\t%d", i+1, psize[i], parray[i]+1, bsize[parray[i]], fragment[i]);
+        }
+    }
+    
+    return 0;
+}
