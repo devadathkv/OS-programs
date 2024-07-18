@@ -1,0 +1,32 @@
+#include <stdio.h>
+
+
+int main()
+{
+    
+    //shared sender
+    void  *sharedmemory;
+    char buffer[100];
+    int shmid = shmget((key_t)1122,1024,0666|IPC_CREAT);
+    printf("id is %d",shmid);
+    shared_memory=shmat(shmid,NULL,0);
+    printf("Process is at : %p",shared_memory);
+    printf("Enter data to write : ");
+    gets(buffer);
+    strcpy(shared_memory,buffer);
+    printf("You wrote %s",(char*)shared_memory);
+    
+    
+    //shared receiver
+    void *shared_memory;
+    char buffer[100];
+    int shmid=shmget((key_t)1122,1024,0666); // no ipc|creat
+    printf("Id is %d",shmid);
+    shared_memory=shmat(shmid,NULL,0);
+    printf("Process attached at %p",shared_memory);
+    printf("Data read is %s",(char*)shared_memory);
+    
+    
+
+    return 0;
+}
