@@ -1,0 +1,59 @@
+#include <stdio.h>
+
+int main()
+{
+    int at[10], bt[10], ct[10], tat[10], wt[10], n, tottat = 0, totwt = 0, rem[10];
+    int temp, qt, count = 0, time = 0;
+    int i;
+
+    printf("Enter no of processes : ");
+    scanf("%d", &n);
+
+    for (i = 0; i < n; i++) {
+        printf("Enter arrival time of process %d: ", i + 1);
+        scanf("%d", &at[i]);
+        printf("Enter burst time of process %d: ", i + 1);
+        scanf("%d", &bt[i]);
+    }
+
+    printf("Enter quantum time : ");
+    scanf("%d", &qt);
+
+    for (i = 0; i < n; i++) {
+        rem[i] = bt[i];
+    }
+
+    while (count < n) {
+        for (i = 0; i < n; i++) {
+            if (at[i] <= time && rem[i] > 0) {
+                if (rem[i] > qt) {
+                    time = time + qt;
+                    rem[i] = rem[i] - qt;
+                } 
+                else {
+                    time = time + rem[i];
+                    rem[i] = 0;
+                    ct[i] = time;
+                    tat[i] = ct[i] - at[i];
+                    wt[i] = tat[i] - bt[i];
+                    tottat += tat[i];
+                    totwt += wt[i];
+                    count++;
+                }
+            }
+        }
+        time++;
+    }
+
+    printf("\nProcess\tAT\tBT\tCT\tTAT\tWT\n");
+    for (i = 0; i < n; i++) {
+        printf("P%d\t%d\t%d\t%d\t%d\t%d\n", i + 1, at[i], bt[i], ct[i], tat[i], wt[i]);
+    }
+
+    printf("Total waiting time : %d \n", totwt);
+    printf("Average waiting time : %.2f \n", (float)totwt / n);
+    printf("Total turnaround time : %d \n", tottat);
+    printf("Average TAT : %.2f \n", (float)tottat / n);
+
+    return 0;
+}
