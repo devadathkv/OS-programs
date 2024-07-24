@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int RQ[10], n, totaldsize, i;
+    int totalheadmovt = 0, initial;
+
+    printf("Enter number of requests: ");
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        printf("Enter request sequence: ");
+        scanf("%d", &RQ[i]);
+    }
+
+    printf("Enter initial head position: ");
+    scanf("%d", &initial);
+
+    // Process requests in FIFO order
+    for (int i = 0; i < n; i++) {
+        totalheadmovt += abs(RQ[i] - initial);
+        initial = RQ[i];
+    }
+
+    printf("Total head movement: %d\n", totalheadmovt);
+
+    return 0;
+}
