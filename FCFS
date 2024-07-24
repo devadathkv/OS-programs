@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+int main()
+{
+    int at[10],bt[10],ct[10],tat[10],wt[10],n,tottat=0,totwt=0;
+    printf("Enter no of processes : ");
+    scanf("%d",&n);
+    for(int i=0;i<n;i++){
+        printf("Enter arrival time : ");
+        scanf("%d",&at[i]);
+        printf("Enter burst time : ");
+        scanf("%d",&bt[i]);
+    }
+    
+    int sum=at[0];
+    for(int i=0;i<n;i++){
+        sum=sum+bt[i];
+        ct[i]=sum;
+    }
+    for(int i=0;i<n;i++){
+        tat[i]=ct[i]-at[i];
+        tottat=tottat+tat[i];
+    }
+    for(int i=0;i<n;i++){
+        wt[i]=tat[i]-bt[i];
+        totwt=totwt+wt[i];
+        
+    }
+    printf("Total waiting time : %d \n",totwt);
+    printf("Average waiting time : %d \n",totwt/n);
+    printf("Total turnaround time : %d \n",tottat);
+    printf("Average tat : %d \n",tottat/n);
+
+    return 0;
+}
