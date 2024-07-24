@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int mutex=1;
+int full=0;
+int empty=5;
+int x=0;
+
+void producer() {
+    --mutex;
+    ++full;
+    --empty;
+    x++;  // x is the data produced.
+    printf("Producer: %d\n", x);
+    ++mutex;
+}
+
+void consumer() {
+    --mutex;
+    --full;
+    ++empty;
+    printf("Consumer: %d\n", x);
+    x--;
+    ++mutex;
+}
+
+int main() {
+    int n;
+    char ch = 'y';
+
+    while (ch == 'y') {
+        printf("Enter \n1 for producer \n2 for consumer \n3 for exit\n");
+        scanf("%d", &n);
+
+        switch (n) {
+            case 1:
+                if (empty != 0) {
+                    producer();
+                } else {
+                    printf("Buffer is full.\n");
+                }
+                break;
+            case 2:
+                if (full != 0) {
+                    consumer();
+                } else {
+                    printf("Buffer is empty.\n");
+                }
+                break;
+            case 3:
+                printf("Thank you!\n");
+                break;
+            default:
+                printf("Invalid input.\n");
+        }
+
+        printf("Do you want to continue? (y/n): ");
+        scanf(" %c", &ch); // Note the space before %c to consume any leftover newline character
+    }
+
+    return 0;
+}
